@@ -71,7 +71,7 @@ def index():
 
 @app.route('/crea-admin')
 def crea_admin():
-    if Utente.query.filter_by(username='admin').first():
+    if Utente.query.filter_by(username='superadmin').first():
         return "Admin già esistente"
     admin = Utente(username='superadmin', password='admin', role='admin')
     db.session.add(admin)
