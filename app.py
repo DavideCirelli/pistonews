@@ -73,7 +73,7 @@ def index():
 def crea_admin():
     if Utente.query.filter_by(username='admin').first():
         return "Admin già esistente"
-    admin = Utente(username='admin', password='tua_password_sicura', role='admin')
+    admin = Utente(username='superadmin', password='admin', role='admin')
     db.session.add(admin)
     db.session.commit()
     return "Admin creato"
