@@ -9,7 +9,7 @@ from slugify import slugify
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:a@localhost/Pistonews'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://database:whPLFMeUmAgYx7hVs6hGhF2k5oebNJE7@dpg-d0l23i3uibrs739v8lt0-a.oregon-postgres.render.com/pistonews_o2n9'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
 db = SQLAlchemy(app)
