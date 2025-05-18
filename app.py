@@ -69,14 +69,6 @@ def index():
 
     return render_template('index.html',breaking=breaking,recenti=recenti,meno_recenti=meno_recenti, top5_piloti=top5_piloti, top5_team=top5_team, name=name)
 
-@app.route('/crea-admin')
-def crea_admin():
-    if Utente.query.filter_by(username='superadmin').first():
-        return "Admin già esistente"
-    admin = Utente(username='superadmin', password='admin', role='admin')
-    db.session.add(admin)
-    db.session.commit()
-    return "Admin creato"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
