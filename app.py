@@ -14,6 +14,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+with app.app_context():
+    db.create_all()
+
 app.secret_key = "pistonews"
 
 name="PistoNews"
@@ -320,8 +323,6 @@ def lista_preferiti():
     preferiti = Articolo.query.join(Preferito).filter(Preferito.utente_id == utente.id).all()
 
     return render_template('/articoli/list.html', articoli=preferiti, name=name)
-
-
 
 
 
