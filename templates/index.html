@@ -65,7 +65,7 @@
                 alt="Breaking">
             </div>
             <div class="title"><strong>{{ breaking.title }}</strong></div>
-            <div class="preview">{{ breaking.content[:220] }}...</div>
+            <div class="preview">{{ breaking.content[:550] | replace('\n', '<br>') | safe }} ...</div>
           </a>
         </div>
       </div>
@@ -81,7 +81,7 @@
               </div>
               <div class="text mt-2">
                 <strong>{{ articolo.title }}</strong><br>
-                {{ articolo.content[:50] }}...
+                {{ articolo.content[:65] }}...
               </div>
             </div>
           </a>

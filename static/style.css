@@ -119,8 +119,7 @@ footer {
     transition: transform 0.3s;
     width: 100%;
     max-width: 1200px;
-    margin: 20px auto;
-    padding: 2rem 0;
+    
 }
 
 .news-item-link {
