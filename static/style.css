@@ -726,3 +726,82 @@ input[type=number] {
     margin-top: 5px;
 }
 }
+.text-limit {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+@media (min-width: 768px) {
+    .text-limit {
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+    }
+}
+
+.text-limit-recent {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+}
+
+@media (min-width: 768px) {
+    .text-limit-recent {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    }
+}
+
+.text-limit-older {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+@media (min-width: 768px) {
+    .text-limit-older {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    }
+}
+
+.title-limit {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+@media (min-width: 768px) {
+    .title-limit {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    }
+}
+
+.list-text-limit {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+}
+
+@media (min-width: 768px) {
+    .list-text-limit {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    }
+}
