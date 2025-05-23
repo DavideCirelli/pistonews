@@ -107,33 +107,65 @@
         </div>
     </div>
     {% else %}
+    {% endif %}
     {% if articoli is defined %}
     <div style="display: flex; flex-direction: column; align-items: center;">
-        <div class="older-news" style="width: 70%;">
-            <h2 style="text-align: center"><strong>I miei articoli preferiti</strong></h2>
+
+        <!-- Versione DESKTOP -->
+        <div class="older-news d-none d-lg-block" style="width: 70%;">
             {% if articoli %}
             {% for articolo in articoli %}
             <a href="{{ url_for('dettaglio_articolo', articolo_url=articolo.url) }}">
-                <div class="news-item-list">
+                <div class="news-item-list" style="margin-bottom: 1rem">
                     <div class="img">
                         <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}">
                     </div>
                     <div class="text">
-                        <strong>{{ articolo.title }}</strong><br>
-                        {{ articolo.content[:220] }}...
+                        <div class="title title-limit">
+                            <strong>{{ articolo.title }}</strong>
+                        </div>
+                        <div class="list-text-limit">
+                            {{ articolo.content }}
+                        </div>
                     </div>
                 </div>
             </a>
             {% endfor %}
             {% else %}
-            <p style="text-align: center">Non hai ancora aggiunto articoli ai preferiti.</p>
+            <div class="text-center mt-4">
+                <h5>Non hai ancora aggiunto articoli ai preferiti.</h5>
+            </div>
             {% endif %}
         </div>
+
+        <!-- Versione MOBILE -->
+        <div class="col-12 d-lg-none">
+            <div class="recent-news d-grid gap-3" style="padding: 20px;">
+                {% if articoli %}
+                {% for articolo in articoli %}
+                <a href="{{ url_for('dettaglio_articolo', articolo_url=articolo.url) }}">
+                    <div class="recent-news-item d-flex flex-column">
+                        <div class="img-box">
+                            <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}"
+                                class="img-fluid">
+                        </div>
+                        <div class="text mt-2 text-limit-recent">
+                            <div class="title title-limit"><strong>{{ articolo.title }}</strong></div>
+                            {{ articolo.content }}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                {% else %}
+                <div class="text-center mt-4">
+                    <h5>Non hai ancora aggiunto articoli ai preferiti.</h5>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
     </div>
     {% endif %}
-    {% endif %}
-
-
 
 
     <footer class="py-4 mt-5 shadow-sm">
