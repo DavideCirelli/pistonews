@@ -197,7 +197,7 @@ def classifiche():
     team = Classifica.query.filter_by(tipo='team').order_by(Classifica.punti.desc()).all()
     
 
-    admin = session.get('role') == 'user'
+    admin = session.get('role') == 'admin'
 
     if request.method == 'POST' and admin:
         for item_id, punti in request.form.items():
