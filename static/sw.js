@@ -1,11 +1,23 @@
-// Installa e cache statici
+const CACHE_NAME = 'pistonews-cache-v4';
+const DYNAMIC_CACHE_NAME = 'pistonews-dynamic-cache-v1';
+
+const urlsToCache = [
+  '/',
+  '/offline.html',
+  '/static/style.css',             // <-- Cambia con il tuo file CSS reale
+  '/static/manifest.json',
+  '/static/icon-192.png',
+  '/static/icon-512.png'
+];
+
+// Installa e cachea risorse statiche
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// Attiva e pulisci cache vecchie
+// Attiva e rimuove vecchie cache
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME, DYNAMIC_CACHE_NAME];
   event.waitUntil(
@@ -21,64 +33,64 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Gestione fetch con cache dinamica per immagini e altro
+// Gestione delle richieste (fetch)
 self.addEventListener('fetch', event => {
-  const requestUrl = new URL(event.request.url);
+  const request = event.request;
+  const requestUrl = new URL(request.url);
 
-  // Se è richiesta una risorsa statica in cache statica (già gestita)
-  if (urlsToCache.includes(requestUrl.pathname)) {
-    event.respondWith(
-      caches.match(event.request).then(cachedRes => cachedRes || fetch(event.request))
-    );
-    return;
-  }
-
-    if (request.mode === 'navigate') {
+  // Navigazione (HTML dinamico)
+  if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
         .then(response => {
-          return caches.open(DYNAMIC_CACHE_NAME).then(cache => {
-            cache.put(request, response.clone());
+          if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
+          }
+
+          const responseClone = response.clone();
+          caches.open(DYNAMIC_CACHE_NAME).then(cache => {
+            cache.put(request, responseClone);
           });
+
+          return response;
         })
         .catch(() => {
-          return caches.match(request).then(resp => resp || caches.match('/offline.html'));
+          return caches.match(request).then(cachedRes => cachedRes || caches.match('/templates/offline.html'));
         })
     );
     return;
   }
 
-  // Cache dinamica per immagini nella cartella /static/upload/
+  // Cache dinamica per immagini caricate (upload)
   if (requestUrl.pathname.startsWith('/static/upload/')) {
     event.respondWith(
       caches.open(DYNAMIC_CACHE_NAME).then(cache =>
-        fetch(event.request)
+        fetch(request)
           .then(response => {
-            cache.put(event.request, response.clone());
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
             return response;
           })
-          .catch(() =>
-            caches.match(event.request).then(cachedRes => cachedRes || caches.match('/offline.html'))
-          )
+          .catch(() => caches.match(request))
       )
     );
     return;
   }
 
- // Altre richieste statiche
+  // Risorse statiche già note
+  if (urlsToCache.includes(requestUrl.pathname)) {
+    event.respondWith(
+      caches.match(request).then(cachedRes => cachedRes || fetch(request))
+    );
+    return;
+  }
+
+  // Fallback generico: prima cache, poi offline.html
   event.respondWith(
-    caches.match(request)
-      .then(response => response || fetch(request))
-      .catch(() => caches.match('/offline.html'))
-  );
-});
-  
-  // Fallback generico: prova fetch, altrimenti cache o offline.html
-  event.respondWith(
-    fetch(event.request)
+    fetch(request)
       .catch(() =>
-        caches.match(event.request).then(cachedRes => cachedRes || caches.match('/offline.html'))
+        caches.match(request).then(cachedRes => cachedRes || caches.match('/templates/offline.html'))
       )
   );
 });
