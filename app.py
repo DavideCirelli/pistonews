@@ -322,7 +322,9 @@ def lista_preferiti():
 
     return render_template('/articoli/list.html', articoli=preferiti, name=name)
 
-
+@app.route('/offline.html')
+def offline():
+    return render_template('/templates/offline.html')
 
 
 
