@@ -3,7 +3,7 @@ const DYNAMIC_CACHE_NAME = 'pistonews-dynamic-cache-v1';
 
 const urlsToCache = [
   '/',
-  '/offline.html',
+  '/templates/offline.html',
   '/static/style.css',             // <-- Cambia con il tuo file CSS reale
   '/static/manifest.json',
   '/static/icon-192.png',
