@@ -33,6 +33,22 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+    if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          return caches.open(DYNAMIC_CACHE_NAME).then(cache => {
+            cache.put(request, response.clone());
+            return response;
+          });
+        })
+        .catch(() => {
+          return caches.match(request).then(resp => resp || caches.match('/offline.html'));
+        })
+    );
+    return;
+  }
+
   // Cache dinamica per immagini nella cartella /static/upload/
   if (requestUrl.pathname.startsWith('/static/upload/')) {
     event.respondWith(
@@ -50,6 +66,14 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+ // Altre richieste statiche
+  event.respondWith(
+    caches.match(request)
+      .then(response => response || fetch(request))
+      .catch(() => caches.match('/offline.html'))
+  );
+});
+  
   // Fallback generico: prova fetch, altrimenti cache o offline.html
   event.respondWith(
     fetch(event.request)
