@@ -104,11 +104,11 @@ footer {
     color: #555;
 }
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     .breaking-news img {
         width: 50% !important;
     }
-}
+}*/
 /* Older News */
 
 .older-news {
