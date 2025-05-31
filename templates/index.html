@@ -20,6 +20,32 @@
 
 <body>
 
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const immagini = document.querySelectorAll('img');
+
+    immagini.forEach(img => {
+      img.onload = function () {
+        const { naturalWidth: w, naturalHeight: h } = img;
+
+        if (w === 1920 && h === 1080) {
+          img.classList.add('img-full');
+        } else if (w === 1080 && h === 1080) {
+          img.classList.add('img-half');
+        }
+      };
+    });
+  });
+</script>
+
+  <style>
+.img-full {
+  width: 100%;
+}
+
+.img-half {
+  width: 50%;
+}</style>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
     <div class="container">
