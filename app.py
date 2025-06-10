@@ -177,7 +177,7 @@ def modifica_articolo(articolo_url):
 
 @app.route('/articolo/delete/<string:articolo_url>', methods=['POST'])
 def elimina_articolo(articolo_url):
-    articolo = Articolo.query.get_or_404(articolo_url)
+    articolo = Articolo.query.filter_by(url=articolo_url).first_or_404()
 
     db.session.delete(articolo)
     db.session.commit()
