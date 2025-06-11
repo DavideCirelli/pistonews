@@ -805,3 +805,9 @@ input[type=number] {
     line-clamp: 2;
     }
 }
+
+@media (max-width: 768px) {
+  .img-half {
+    width: 100% !important;
+  }
+}
