@@ -22,20 +22,26 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const immagini = document.querySelectorAll('img');
+  const immagini = document.querySelectorAll('img');
 
-    immagini.forEach(img => {
-      img.onload = function () {
-        const { naturalWidth: w, naturalHeight: h } = img;
+  immagini.forEach(img => {
+    const applyClass = () => {
+      const { naturalWidth: w, naturalHeight: h } = img;
+      if (w === 1920 && h === 1080) {
+        img.classList.add('img-full');
+      } else if (w === 1080 && h === 1080) {
+        img.classList.add('img-half');
+      }
+    };
 
-        if (w === 1920 && h === 1080) {
-          img.classList.add('img-full');
-        } else if (w === 1080 && h === 1080) {
-          img.classList.add('img-half');
-        }
-      };
-    });
+    if (img.complete) {
+      applyClass();
+    } else {
+      img.onload = applyClass;
+    }
   });
+});
+
 </script>
 
   <style>
