@@ -93,7 +93,7 @@
           <a href="{{ url_for('dettaglio_articolo', articolo_url=breaking.url) }}">
             <div class="label">BREAKING NEWS</div>
             <div class="img">
-              <img src="{{ url_for('static', filename='uploads/' ~ breaking.image_filename) }}" class="img-fluid"
+              <img src="{{ url_for('static', filename='uploads/' ~ breaking.image_filename) }}" class="img-breaking"
                 alt="Breaking">
             </div>
             <div class="title"><strong>{{ breaking.title }}</strong></div>
