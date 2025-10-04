@@ -69,6 +69,13 @@ def index():
 
     return render_template('index.html',breaking=breaking,recenti=recenti,meno_recenti=meno_recenti, top5_piloti=top5_piloti, top5_team=top5_team, name=name)
 
+@app.route('/googlefd460ab229d35c1d.html')
+def google_verification():
+    return send_from_directory('.', 'googlefd460ab229d35c1d.html')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('.', 'sitemap.xml')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
