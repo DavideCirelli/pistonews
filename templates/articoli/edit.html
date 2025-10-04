@@ -80,8 +80,8 @@
         {% if articolo.image_filename %}
         <p>Immagine attuale:</p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="img-fluid"
-            style="max-height: 200px;">
+          <img src="{{ url_for('get_image', articolo_id=articolo.id) }}" class="img-fluid" style="max-height: 200px;">
+
           <button type="submit" name="remove_image" value="true" class="btn btn-danger mt-2">Rimuovi
             Immagine</button>
         </div>
