@@ -99,7 +99,7 @@
           <a href="{{ url_for('dettaglio_articolo', articolo_url=breaking.url) }}">
             <div class="label">BREAKING NEWS</div>
             <div class="img">
-              <img src="{{ url_for('static', filename='uploads/' ~ breaking.image_filename) }}" class="img-breaking"
+              <img src="{{ url_for('get_image', articolo_id=breaking.id) }}" class="img-fluid"
                 alt="Breaking">
             </div>
             <div class="title"><strong>{{ breaking.title }}</strong></div>
@@ -117,7 +117,11 @@
           <a href="{{ url_for('dettaglio_articolo', articolo_url=articolo.url) }}">
             <div class="recent-news-item d-flex flex-column">
               <div class="img-box">
-                <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="img-fluid">
+                {% if articolo.image_data %}
+                  <img src="{{ url_for('get_image', articolo_id=articolo.id) }}" class="img-fluid">
+                  {% else %}
+                  <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="img-fluid">
+                  {% endif %}
               </div>
               <div class="text mt-2 text-limit-recent">
                 <div class="title title-limit"><strong>{{ articolo.title }}</strong></div>
@@ -138,7 +142,11 @@
           <a href="{{ url_for('dettaglio_articolo', articolo_url=articolo.url) }}">
             <div class="news-item d-flex flex-row">
               <div class="img me-3">
-                <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="img-fluid">
+                {% if articolo.image_data %}
+                  <img src="{{ url_for('get_image', articolo_id=articolo.id) }}" class="img-fluid">
+                  {% else %}
+                  <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="img-fluid">
+                  {% endif %}
               </div>
               <div class="text-limit-older">
                 <div class="title title-limit"><strong>{{ articolo.title }}</strong></div>
