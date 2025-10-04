@@ -119,9 +119,7 @@ def aggiungi_articolo():
 
         if image and image.filename != '':
             filename = secure_filename(image.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image.save(image_path)
-            image_filename = filename
+            image_data = image.read()
 
         nuovo_articolo = Articolo(
             title=title,
