@@ -88,9 +88,11 @@
             <p class="meta">Scritto da <strong>{{ articolo.author }}</strong> il {{
                 articolo.date_posted.strftime("%d/%m/%Y %H:%M") }}</p>
 
-            {% if articolo.image_filename %}
-            <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="articolo-img">
-            {% endif %}
+            {% if articolo.image_data %}
+                  <img src="{{ url_for('get_image', articolo_id=articolo.id) }}" class="articolo-img">
+                  {% else %}
+                  <img src="{{ url_for('static', filename='uploads/' ~ articolo.image_filename) }}" class="articolo-img">
+                  {% endif %}
 
             <div class="contenuto">
                 <p>{{ articolo.content | replace('\n', '<br>') | safe }}</p>
