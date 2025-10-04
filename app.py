@@ -332,5 +332,13 @@ def offline():
     return render_template('/templates/offline.html')
 
 
+@app.route('/immagine/<int:articolo_id>')
+def get_image(articolo_id):
+    articolo = Articolo.query.get_or_404(articolo_id)
+    if not articolo.image_data:
+        return "Nessuna immagine", 404
+    # Puoi impostare il mimetype in base all'estensione salvata in image_filename
+    return Response(articolo.image_data, mimetype="image/jpg")
+
 
 app.run(host="0.0.0.0", port=5432, debug=True)
