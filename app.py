@@ -74,13 +74,13 @@ def index():
 def google_verification():
     return send_from_directory('.', 'googlefd460ab229d35c1d.html')
 
-@app.route('/sitemap.xml')
-def sitemap():
-    return send_from_directory('.', 'sitemap.xml')
-
 @app.route('/robots.txt')
 def robots():
-    return send_from_directory('.', 'robots.txt')
+    return send_from_directory(app.static_folder, 'robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
