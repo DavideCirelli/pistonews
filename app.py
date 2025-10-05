@@ -115,10 +115,11 @@ def aggiungi_articolo():
         author = request.form['author']
         image = request.files.get('image')
         image_filename = None
+        image_data = None
         url = slugify(title)
 
         if image and image.filename != '':
-            filename = secure_filename(image.filename)
+            image_filename = secure_filename(image.filename)
             image_data = image.read()
 
         nuovo_articolo = Articolo(
@@ -126,6 +127,7 @@ def aggiungi_articolo():
             content=content,
             author=author,
             image_filename=image_filename,
+            image_data=image_data,
             url=url
         )
 
@@ -162,9 +164,9 @@ def modifica_articolo(articolo_url):
         image = request.files.get('image')
         if image and image.filename != '':
             filename = secure_filename(image.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image.save(image_path)
             articolo.image_filename = filename
+            articolo.image_data = image.read()
+
             
         if 'remove_image' in request.form:
             if articolo.image_filename:
