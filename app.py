@@ -9,7 +9,7 @@ from slugify import slugify
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pistonews_wmwh_user:Rlv4RVZvvUZm0bPgI4VdF3f1wHgi2enG@dpg-d3c1lkb7mgec73a57gq0-a.frankfurt-postgres.render.com/pistonews_wmwh'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pistonews_wmwh_user:Rlv4RVZvvUZm0bPgI4VdF3f1wHgi2enG@dpg-d3c1lkb7mgec73a57gq0-a/pistonews_wmwh'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
 db = SQLAlchemy(app)
@@ -27,6 +27,7 @@ class Articolo(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     author = db.Column(db.String(100), nullable=False)
     image_filename = db.Column(db.String(255))
+    image_data = db.Column(db.LargeBinary)
     url = db.Column(db.String(255))
 
     def __repr__(self):
@@ -109,16 +110,19 @@ def aggiungi_articolo():
     if not session.get('role') == 'admin':
         flash("Devi essere admin per creare un articolo.", "warning")
         return redirect(url_for('login'))
+
     if request.method == "POST":
         title = request.form['title']
         content = request.form['content']
         author = request.form['author']
         image = request.files.get('image')
-        image_filename = None
         url = slugify(title)
 
+        image_filename = None
+        image_data = None  # inizializza sempre
+
         if image and image.filename != '':
-            filename = secure_filename(image.filename)
+            image_filename = secure_filename(image.filename)
             image_data = image.read()
 
         nuovo_articolo = Articolo(
@@ -126,6 +130,7 @@ def aggiungi_articolo():
             content=content,
             author=author,
             image_filename=image_filename,
+            image_data=image_data,
             url=url
         )
 
@@ -133,6 +138,7 @@ def aggiungi_articolo():
         db.session.commit()
         flash("Articolo aggiunto con successo!", "success")
         return redirect(url_for("index"))
+
     return render_template('articoli/add.html')
 
 @app.route('/articolo/<string:articolo_url>')
