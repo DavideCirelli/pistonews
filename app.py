@@ -347,4 +347,12 @@ def get_image(articolo_id):
     return Response(articolo.image_data, mimetype="image/jpg")
 
 
+@app.route("/robots.txt")
+def robots_txt():
+    content = """User-agent: *
+Allow: /
+Sitemap: https://pistonews.onrender.com/sitemap.xml
+"""
+    return Response(content, mimetype="text/plain")
+
 app.run(host="0.0.0.0", port=5432, debug=True)
