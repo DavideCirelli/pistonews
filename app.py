@@ -27,6 +27,7 @@ class Articolo(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     author = db.Column(db.String(100), nullable=False)
     image_filename = db.Column(db.String(255))
+    image_data = db.Column(db.LargeBinary)  
     url = db.Column(db.String(255))
 
     def __repr__(self):
