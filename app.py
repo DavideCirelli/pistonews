@@ -109,18 +109,21 @@ def aggiungi_articolo():
     if not session.get('role') == 'admin':
         flash("Devi essere admin per creare un articolo.", "warning")
         return redirect(url_for('login'))
+
     if request.method == "POST":
         title = request.form['title']
         content = request.form['content']
         author = request.form['author']
         image = request.files.get('image')
-        image_filename = None
-        image_data = None
         url = slugify(title)
 
+        # Inizializza sempre le variabili
+        image_filename = None
+        image_data = None
+
         if image and image.filename != '':
-            image_filename = secure_filename(image.filename)
-            image_data = image.read()
+            image_filename = secure_filename(image.filename)  # aggiorno image_filename
+            image_data = image.read()  # salvo i dati binari
 
         nuovo_articolo = Articolo(
             title=title,
@@ -135,6 +138,7 @@ def aggiungi_articolo():
         db.session.commit()
         flash("Articolo aggiunto con successo!", "success")
         return redirect(url_for("index"))
+
     return render_template('articoli/add.html')
 
 @app.route('/articolo/<string:articolo_url>')
