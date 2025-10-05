@@ -78,6 +78,10 @@ def google_verification():
 def sitemap():
     return send_from_directory('.', 'sitemap.xml')
 
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('.', 'robots.txt')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -346,13 +350,5 @@ def get_image(articolo_id):
     # Puoi impostare il mimetype in base all'estensione salvata in image_filename
     return Response(articolo.image_data, mimetype="image/jpg")
 
-
-@app.route("/robots.txt")
-def robots_txt():
-    content = """User-agent: *
-Allow: /
-Sitemap: https://pistonews.onrender.com/sitemap.xml
-"""
-    return Response(content, mimetype="text/plain")
 
 app.run(host="0.0.0.0", port=5432, debug=True)
