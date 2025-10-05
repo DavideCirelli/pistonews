@@ -74,6 +74,10 @@ def index():
 def google_verification():
     return send_from_directory('.', 'googlefd460ab229d35c1d.html')
 
+@app.route("/debug-columns")
+def debug_columns():
+    return {"columns": list(Articolo.__table__.columns.keys())}
+
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory('.', 'sitemap.xml')
