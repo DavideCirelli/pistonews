@@ -27,7 +27,6 @@ class Articolo(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     author = db.Column(db.String(100), nullable=False)
     image_filename = db.Column(db.String(255))
-    image_data = db.Column(db.LargeBinary)  
     url = db.Column(db.String(255))
 
     def __repr__(self):
@@ -74,10 +73,6 @@ def index():
 def google_verification():
     return send_from_directory('.', 'googlefd460ab229d35c1d.html')
 
-@app.route("/debug-columns")
-def debug_columns():
-    return {"columns": list(Articolo.__table__.columns.keys())}
-
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory('.', 'sitemap.xml')
@@ -114,28 +109,23 @@ def aggiungi_articolo():
     if not session.get('role') == 'admin':
         flash("Devi essere admin per creare un articolo.", "warning")
         return redirect(url_for('login'))
-
     if request.method == "POST":
         title = request.form['title']
         content = request.form['content']
         author = request.form['author']
         image = request.files.get('image')
+        image_filename = None
         url = slugify(title)
 
-        # Inizializza sempre le variabili
-        image_filename = None
-        image_data = None
-
         if image and image.filename != '':
-            image_filename = secure_filename(image.filename)  # aggiorno image_filename
-            image_data = image.read()  # salvo i dati binari
+            filename = secure_filename(image.filename)
+            image_data = image.read()
 
         nuovo_articolo = Articolo(
             title=title,
             content=content,
             author=author,
             image_filename=image_filename,
-            image_data=image_data,
             url=url
         )
 
@@ -143,7 +133,6 @@ def aggiungi_articolo():
         db.session.commit()
         flash("Articolo aggiunto con successo!", "success")
         return redirect(url_for("index"))
-
     return render_template('articoli/add.html')
 
 @app.route('/articolo/<string:articolo_url>')
@@ -173,9 +162,9 @@ def modifica_articolo(articolo_url):
         image = request.files.get('image')
         if image and image.filename != '':
             filename = secure_filename(image.filename)
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image.save(image_path)
             articolo.image_filename = filename
-            articolo.image_data = image.read()
-
             
         if 'remove_image' in request.form:
             if articolo.image_filename:
